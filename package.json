@@ -34,7 +34,7 @@
     "seed": "docker exec -it vial-backend-b-api npx prisma db seed",
     "lint": "eslint src --ext .ts",
     "lint:fix": "eslint src --ext .ts --fix",
-    "test": "dotenv -e .env.test -- sh -c 'prisma generate && node -r ts-node/register --test src/routes/__tests__/form.test.ts'"
+    "test": "dotenv -e .env.test -- sh -c 'prisma generate && node -r ts-node/register --test src/**/__tests__/**.ts'"
   },
   "keywords": [],
   "author": "",

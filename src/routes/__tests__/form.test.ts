@@ -19,7 +19,11 @@ describe('Form Routes', () => {
 
   after(async () => {
     // Clean up test data
-    await prisma.form.deleteMany()
+    if (createdForm) {
+      await prisma.form.delete({
+        where: { id: createdForm.id },
+      })
+    }
     await app.close()
   })
 
