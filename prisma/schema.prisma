@@ -11,28 +11,28 @@ datasource db {
 }
 
 model Form {
-  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name      String
-  fields    Json
+  id     String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name   String
+  fields Json
 
   @@map("form")
 }
 
 model SourceRecord {
-  id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  formId       String    @map("form_id") @db.Uuid
-  sourceData   SourceData[]
+  id         String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  formId     String       @map("form_id") @db.Uuid
+  sourceData SourceData[]
 
   @@index(formId)
   @@map("source_record")
 }
 
 model SourceData {
-  id                   String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  question             String
-  answer               String
-  sourceRecordId       String    @map("source_record_id") @db.Uuid
-  sourceRecord         SourceRecord      @relation(fields: [sourceRecordId], references: [id])
+  id             String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  question       String
+  answer         String
+  sourceRecordId String       @map("source_record_id") @db.Uuid
+  sourceRecord   SourceRecord @relation(fields: [sourceRecordId], references: [id])
 
   @@index(sourceRecordId)
   @@map("source_data")

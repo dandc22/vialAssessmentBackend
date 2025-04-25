@@ -7,3 +7,22 @@ export const EntityId = Type.Object({
 })
 
 export type IEntityId = Static<typeof EntityId>
+
+export const SourceRecordDataOutput = Type.Object({
+  question: Type.String(),
+  answer: Type.String(),
+})
+
+export const FormInput = Type.Object({
+  name: Type.String(),
+  fields: Type.Record(
+    Type.String(),
+    Type.Object({
+      type: Type.String(),
+      question: Type.String(),
+      required: Type.Optional(Type.Boolean()),
+    })
+  ),
+})
+
+export type IFormInput = Static<typeof FormInput>

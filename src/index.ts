@@ -4,7 +4,7 @@ import { FastifyInstance } from 'fastify'
 
 const server: FastifyInstance = build({
   logger: {
-    level: 'error',
+    level: 'info',
   },
 })
 
