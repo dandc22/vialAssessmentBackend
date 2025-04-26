@@ -86,4 +86,67 @@ describe('Source Record Routes', () => {
 
     assert.equal(response.statusCode, 400)
   })
+
+  test('POST / - should create a source record with valid data', async () => {
+    const response = await app.inject({
+      method: 'POST',
+      url: '/source-record',
+      payload: {
+        formId: testForm.id,
+        sourceData: {
+          name: 'Jane Doe',
+        },
+      },
+    })
+
+    assert.equal(response.statusCode, 201)
+
+    const responseJson = JSON.parse(response.payload)
+    assert.equal(responseJson.data.formId, testForm.id)
+
+    // Verify sourceData was created correctly
+    assert.ok(Array.isArray(responseJson.data.sourceData))
+    assert.equal(responseJson.data.sourceData.length, 1)
+    assert.equal(responseJson.data.sourceData[0].question, 'What is your name?')
+    assert.equal(responseJson.data.sourceData[0].answer, 'Jane Doe')
+
+    // Clean up created record
+    await prisma.sourceData.deleteMany({
+      where: { sourceRecordId: responseJson.data.id },
+    })
+    await prisma.sourceRecord.delete({
+      where: { id: responseJson.data.id },
+    })
+  })
+
+  test('POST / - should return 400 for missing required fields', async () => {
+    const response = await app.inject({
+      method: 'POST',
+      url: '/source-record',
+      payload: {
+        formId: testForm.id,
+        sourceData: {},
+      },
+    })
+
+    assert.equal(response.statusCode, 400)
+    const responseJson = JSON.parse(response.payload)
+    assert.match(responseJson.message, /Missing required field/)
+  })
+
+  test('POST / - should return 400 for non-existent form', async () => {
+    const nonExistentId = '00000000-0000-0000-0000-000000000000'
+    const response = await app.inject({
+      method: 'POST',
+      url: '/source-record',
+      payload: {
+        formId: nonExistentId,
+        sourceData: {
+          name: 'Jane Doe',
+        },
+      },
+    })
+
+    assert.equal(response.statusCode, 400)
+  })
 })

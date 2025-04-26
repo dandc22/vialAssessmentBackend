@@ -26,3 +26,10 @@ export const FormInput = Type.Object({
 })
 
 export type IFormInput = Static<typeof FormInput>
+
+export const SourceRecordInput = Type.Object({
+  formId: Type.String({ format: 'uuid' }),
+  sourceData: Type.Record(Type.String(), Type.String()),
+})
+
+export type ISourceRecordInput = Static<typeof SourceRecordInput>
