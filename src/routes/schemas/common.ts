@@ -33,3 +33,9 @@ export const SourceRecordInput = Type.Object({
 })
 
 export type ISourceRecordInput = Static<typeof SourceRecordInput>
+
+export const GetByFormIdParams = Type.Object({
+  formId: Type.String({ format: 'uuid' }),
+})
+
+export type IGetByFormIdParams = Static<typeof GetByFormIdParams>
